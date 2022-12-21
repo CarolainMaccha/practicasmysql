@@ -1,0 +1,54 @@
+/*TABLA nacimientos*/
+CREATE TABLE `nacimientos` (
+  `Nombre` varchar(12) NOT NULL,
+  `Apellido1` varchar(12) NOT NULL,
+  `Apellido2` varchar(12) NOT NULL,
+  `FechaNac` date DEFAULT NULL,
+  `Provincia` varchar(2) DEFAULT NULL,
+  PRIMARY KEY (`Nombre`,`Apellido1`,`Apellido2`)
+);
+
+INSERT INTO nacimientos VALUES('Ana','Saénz','López','2008-01-05','SE'),('Concepción','Flores','Cruz','2009-02-27','SA'),('Inmaculada','Alba','Ruiz','2007-12-15','B'),('Felipe','Fernández','Gómez','2007-11-13','S'),('Sandra','Barata','Reyes','2008-05-21','M'),('Daniel','López','Rojas','2008-07-25','TO'),('Jaime','Ríos','Roma','2008-10-30','M'),('Miguel','Bendita','Gil','2009-03-17','MA'),('Raquel','Robles','Santos','2009-04-04','TO'),('Arantxa','Antón','Barrios','2009-04-04','M'),('Elisa','Alonso','López','2009-08-20','V'),('Rémulo','Fernández','Alto','2009-08-19','CA');
+
+/*TABLA nacimientos09*/
+CREATE TABLE `nacimientos09` (
+  `Nombre` varchar(12) NOT NULL,
+  `Apellido1` varchar(12) NOT NULL,
+  `Apellido2` varchar(12) NOT NULL,
+  `FechaNac` date DEFAULT NULL,
+  `Provincia` varchar(2) DEFAULT NULL,
+  PRIMARY KEY (`Nombre`,`Apellido1`,`Apellido2`)
+);
+
+INSERT INTO nacimientos09 select * from nacimientos where YEAR(FechaNac)=2009;
+
+/*TABLA NacimientosTauro*/
+CREATE TABLE `NacimientosTauro` (
+  `Nombre` varchar(12) NOT NULL,
+  `Apellido1` varchar(12) NOT NULL,
+  `Apellido2` varchar(12) NOT NULL,
+  `FechaNac` date DEFAULT NULL,
+  `Provincia` varchar(2) DEFAULT NULL,
+  PRIMARY KEY (`Nombre`,`Apellido1`,`Apellido2`)
+);
+
+INSERT INTO NacimientosTauro select * from nacimientos where (MONTH(FechaNac)= '04'AND DAY(FechaNac)>='21') OR (MONTH(FechaNac)='05'AND DAY(FechaNac)<='21') ;
+
+/*enunciado 2*/
+
+UPDATE nacimientos SET Provincia='M' WHERE Apellido1 like "%z" OR Apellido2 like "%z";
+
+UPDATE nacimientos SET Provincia='AL' WHERE Provincia='MA' ;
+
+UPDATE nacimientos SET FechaNac=DATE_ADD(FechaNac, INTERVAL 2 YEAR) WHERE YEAR(FechaNac)<'2009' AND Provincia='M';
+
+UPDATE nacimientos SET Nombre=CONCAT(Nombre," ","Maria")AND Apellido1=CONCAT("de",Apellido1) WHERE SUBSTR(Apellido1,1,1)=SUBSTR(Provincia,1,1);
+
+
+*********UPDATE nacimientos SET Nombre=CONCAT(Nombre," ","Junior") WHERE edad=edad/edad.length ;
+
+
+
+
+
+

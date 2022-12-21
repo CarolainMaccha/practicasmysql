@@ -1,0 +1,45 @@
+/*CONSULTAS*/
+
+/*Alias, distinct, order*/
+select nombre AS ciclista,edad,nomequipo AS equipo FROM ciclista ORDER BY edad,nomequipo DESC;
+select DISTINCT edad FROM ciclista ORDER BY edad ASC;
+select DISTINCT dorsal AS ganador FROM etapa ORDER BY dorsal DESC;
+select DISTINCT numetapa AS "Etapa con puerto" FROM puerto ORDER BY numetapa DESC;
+
+/*condicion sencilla*/
+select nombre AS "nombre y apellido",edad,nomequipo FROM ciclista WHERE edad>33 ORDER BY nomequipo ASC;
+select numetapa,kms,salida,llegada FROM etapa WHERE salida=llegada ORDER BY kms DESC;
+select nombrepuerto AS nombrePuerto,altura,categoria FROM puerto WHERE altura>1500 ORDER BY altura DESC,categoria;
+
+/*condicion LIKE*/
+
+select nombre,nomequipo FROM ciclista WHERE nombre LIKE "____ %" AND nombre<nomequipo;
+
+select dorsal,nombre FROM ciclista WHERE (nombre LIKE "% C%" AND edad<29) OR (nombre LIKE "% A%" AND edad>29);
+
+select dorsal,nombre,edad from ciclista WHERE dorsal=edad+edad OR nombre
+LIKE "%u% %u%" ORDER BY edad DESC;
+
+select nombrepuerto from puerto WHERE nombrepuerto NOT LIKE "Puerto %" AND nombrepuerto LIKE "% % %";
+
+select DISTINCT Region,continent from Country WHERE continent LIKE "A%" ORDER BY continent,Region ASC; 
+
+/*examen de bebes*/
+select * from nacimientos WHERE Provincia IN ("CA","TO","V");
+Select Apellido1,Apellido2,FechaNac from nacimientos WHERE FechaNac BETWEEN  "2-1-2005" AND "10-11-2005";
+
+/*Funciones numéricas*/
+
+select nombrepuerto,truncate(altura/pendiente,1) AS dificultad  from puerto WHERE numetapa%2=0 ORDER BY dificultad DESC;
+
+select salida,ABS(numetapa-dorsal) AS diferencia,kms from etapa WHERE SQRT(kms)<13;
+
+select fecha_fac,producto,unidades,ceil(unidades/12) AS num_paquetes,ABS(unidades-(ceil(unidades/12))*12) AS hueco_ultimo_paquete from facturas WHERE unidades<36 ORDER BY fecha_fac DESC;
+
+
+
+
+
+
+
+
