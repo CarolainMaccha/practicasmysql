@@ -36,7 +36,9 @@ select salida,ABS(numetapa-dorsal) AS diferencia,kms from etapa WHERE SQRT(kms)<
 
 select fecha_fac,producto,unidades,ceil(unidades/12) AS num_paquetes,ABS(unidades-(ceil(unidades/12))*12) AS hueco_ultimo_paquete from facturas WHERE unidades<36 ORDER BY fecha_fac DESC;
 
+/*Funciones fecha*/
 
+select Name,Code,ROUND((YEAR(curdate())-IndepYear)/100) AS centenarios,IndepYear FROM Country WHERE ROUND((YEAR(curdate())-IndepYear)/100)>3 order by centenarios DESC;
 
 
 
