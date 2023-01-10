@@ -1,4 +1,4 @@
-/*CONSULTAS*/
+/*CONSULTAS de EJERCICIOS RESUELTOS*/
 
 /*Alias, distinct, order*/
 select nombre AS ciclista,edad,nomequipo AS equipo FROM ciclista ORDER BY edad,nomequipo DESC;
@@ -38,8 +38,20 @@ select fecha_fac,producto,unidades,ceil(unidades/12) AS num_paquetes,ABS(unidade
 
 /*Funciones fecha*/
 
-select Name,Code,ROUND((YEAR(curdate())-IndepYear)/100) AS centenarios,IndepYear FROM Country WHERE ROUND((YEAR(curdate())-IndepYear)/100)>3 order by centenarios DESC;
+select Name,Code,ROUND *CEIL* *FLOAT*((YEAR(curdate())-IndepYear)/100) AS centenarios,IndepYear FROM Country WHERE ROUND((YEAR(curdate())-IndepYear)/100)>3 order by centenarios DESC;
 
+select Nombre,Apellido1,date_format(FechaNac,"%d de %M de %Y") AS nacimiento from nacimientos WHERE MONTH(FechaNac)<"05" AND Day(FechaNac)>10;
+
+select Nombre,Apellido1,date_add(FechaNac,interval 18 year) AS mayoriaEdad from nacimientos WHERE dayofweek(Fec
+haNac)=4;
+
+/*Funciones varchar*/
+
+ select Nombre,Apellido1,Apellido2,FechaNac,Provincia from nacimientos WHERE length(concat(Nombre,Apellido1,Apellido2))>20;
+
+select concat(left(Nombre,1)," ",Apellido1) AS Nacido from nacimientos WHERE Apellido1 LIKE "__b%";
+
+select SUBSTRING_INDEX(concat(Nombre," ",Apellido1," ",Apellido2),"e",2) AS Nacido from nacimientos WHERE concat(Nombre,Apellido1,Apellido2) LIKE "%e%e%";
 
 
 
