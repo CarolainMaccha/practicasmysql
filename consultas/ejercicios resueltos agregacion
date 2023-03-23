@@ -1,0 +1,15 @@
+alter table mascotas add column vacunas int;
+UPDATE mascotas SET vacunas=2 WHERE YEAR(nacimiento)='1999';
+UPDATE mascotas SET vacunas=1 WHERE YEAR(nacimiento)>='2000';
+INSERT INTO mascotas VALUES ('Lucas', 'Benito', 'Serpiente', 'm', '1999-02-04', NULL,'0');
+UPDATE mascotas SET vacunas=0 WHERE especie="Serpiente" AND propietario="Benito";
+
+select count(*) from mascotas;
+select count(fallecimiento) from mascotas;
+select count(*) from mascotas WHERE fallecimiento is null;
+select count(DISTINCT especie) from mascotas;
+select sum(vacunas) from mascotas;
+
+
+
+

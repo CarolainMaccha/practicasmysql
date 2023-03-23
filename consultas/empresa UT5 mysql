@@ -1,0 +1,38 @@
+/*inserts*/
+CREATE TABLE `Departamentos` (
+  `Num_Dep` numeric(2) primary key,
+  `Nombre` varchar(14),
+  `Localidad` varchar(10),
+  `Direccion` varchar(30),
+  `Telefono` varchar(9)
+);
+CREATE TABLE `Empleados` (
+  `Num_emp` numeric(4) primary key,
+  `Apellido` varchar(10),
+  `Oficio` varchar(15),
+  `Director` numeric(4),
+  `Fecha_Alta` date,
+  `Num_dep` numeric(2),
+   constraint FK_Empleados_Departamentos foreign key (Num_dep)references Departamentos(Num_Dep) on delete cascade
+);
+   alter table Empleados add constraint FK_Empleado_Director foreign key (Director)references Empleados (Num_emp) on delete set null;
+/*inserts*/
+INSERT INTO Departamentos VALUES(10,'Contabilidad','Barcelona',null,null),(20,'Investigacion','Valencia',null,null),(30,'Ventas','Madrid',null,null),(40,'Produccion','Sevilla',null,null);
+
+INSERT INTO Empleados VALUES(7499,'Alonso','Vendedor',null,'1981-02-23',30),(7521,'López','Empleado',null,'1981-05-06',10),(7654,'Martin','Vendedor',null,'1981-05-08',30),(7698,'Garrido','Director',null,'1981-05-01',30),(7782,'Martínez','Director',null,'1981-06-09',10),(7839,'Rey','Presidente',null,'1981-11-17',10);
+
+INSERT INTO Empleados VALUES(8744,'Calvo','Vendedor',7698,'1981-09-08',30),(7876,'Gil','Analista',7782,'1982-05-06',20),(7900,'Jiménez','Empleado',7782,'1983-03-24',20);
+
+/*modificaciones*/
+
+update Empleados SET Director="7698" WHERE Num_emp="7499";
+update Empleados SET Director="7782" WHERE Num_emp="7521";
+update Empleados SET Director="7698" WHERE Num_emp="7654";
+update Empleados SET Director="7839" WHERE Num_emp="7698";
+update Empleados SET Director="7839" WHERE Num_emp="7782";
+
+
+
+
+
+
