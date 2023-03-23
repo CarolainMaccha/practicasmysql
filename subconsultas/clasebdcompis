@@ -1,0 +1,41 @@
+select a.nombre_asignaturas,c.nombre_profesor,b.curso,a.num_horas from asignaturas a join imparten b join profesor c on a.nombre_asignaturas=b.nombre_asignaturas and b.carnet_profesor=c.carnet_profesor WHERE b.curso=3 group by nombre_asignaturas,nombre_profesor;
+
+
+select b.nombre_humanos,b.tlf,c.direccion,a.nombre_casa,a.carnet_estudiante from alumnos a join humanos b join
+colegio c  on a.id=b.id and b.nombre_colegio=c.nombre_colegio WHERE (nombre_humanos like "D%" or nombre_humanos like "J%") and c.direccion like "%e%" and (a.carnet_estudiante like "4_" or a.carnet_estudiante like "1_");
+
+
+select concat(b.nombre_humanos,"-",left(b.nombre_colegio,1)) as nombre,date_format(fecha_nacimiento,"%M")as mes from criaturas a JOIN humanos b JOIN colegio c on a.id=b.id and b.nombre_colegio=c.nombre_colegio WHERE date_format(fecha_nacimiento,"%M")="August" OR date_format(fecha_nacimiento,"%M")="July"  and (year(fecha_nacimiento) between 1980 and 1990) and (year(fecha_graduacion)<2000) order by mes desc;
+----------------------------------------------------------------------------
+
+select a.Nombre_Equipo,b.Nombre_Estadio,MONTH(Fecha_Fundacion) as mes from Equipo a join Estadio b on a.Nombre_Equipo=b.NOmbre_Equipo WHERE Nombre_Estadio like "San%" and month(Fecha_fundacion)=3;
+
+
+select a.Nombre_Jugador,b.Nacionalidad,a.Dorsal,c.Nombre_Liga from Jugadores a join Personas b join Liga c  on a.Nombre_Jugador=b.Nombre_Persona WHERE a.Dorsal%2!=0 and b.Nacionalidad=c.Nacionalidad;
+
+
+select a.Nombre_Equipo,a.Ciudad,sum(Dorsal) from Estadio a join Jugadores b WHERE a.Nombre_Equipo not like a.Ci
+udad group by Nombre_Equipo,Ciudad;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

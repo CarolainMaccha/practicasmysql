@@ -1,0 +1,91 @@
+
+***HOJA1(world)*********
+
+1-Muestra el nombre y continente de cada país junto con los nombres de los idiomas que en él se hablan y si son oficiales o no, ordenados alfabéticamente por continente, país y nombre del idioma.
+
+select  Name,Continent,l.Language,l.IsOfficial from Country c join CountryLanguage l on c.Code=l.CountryCode order by c.Continent,c.Name,l.Language;
+
+2-Muestra el nombre y población de las ciudades junto con el nombre del país y del continente donde se encuentran, ordenadas alfabéticamente por nombre de continente, de país y de ciudad.
+
+select a.Name,a.Population,c.Name,c.Continent from City a join Country c on a.CountryCode=c.Code ORDER BY c.Continent,c.Name,a.Name;
+
+3-Muestra los nombres de los países que teniendo un nombre parecido (que uno contenga al otro) sean diferentes países.
+
+select a.Name,b.Name from Country a join Country b on b.Name like concat("%",a.Name,"%") and a.Name!=b.Name;
+
+4-Muestra el nombre, código y población de los países con mayor superficie que España.
+
+select a.Name,a.Code,a.Population from Country a join Country b on a.SurfaceArea>b.SurfaceArea and b.Name like "Spain" and a.Name!=b.Name;
+
+5-¿Cuántos años en esperanza de vida nos saca Japón?
+
+select (b.LifeExpectancy-a.LifeExpectancy) as "Esperanza de vida respecto a Japon" from Country a join Country b on a.Name like "Spain" and b.Name like "Japan";
+
+6-Muestra los nombres, continentes y superficie de los países (sin repeticiones), que estando en distintos continentes, tengan una superficie similar (es decir, que no se diferencien en más de 5 Km2.
+
+select a.Name,b.Name,a.SurfaceArea,b.SurfaceArea,a.Continent,b.Continent from Country a join Country b on a.Name!=b.Name and (a.SurfaceArea<b.SurfaceArea+5 and a.SurfaceArea>=b.SurfaceArea);
+
+select a.Name,b.Name,a.SurfaceArea,b.SurfaceArea,a.Continent,b.Continent from Country a join Country b on a.Name!=b.Name and (a.SurfaceArea<b.SurfaceArea+5 and a.SurfaceArea>=b.SurfaceArea)and a.Continent!=b.Continent;
+
+7-Muestra los miles de habitantes (con dos decimales) que habla cada idioma oficial en Suiza, ordenados de más a menos hablado.(Código de Suiza: CHE,Nombre de Suiza: Switzerland).
+
+select  l.Language,truncate(((l.Percentage/100)*c.Population/1000),2) as hablan from Country c join CountryLanguage l on c.Code=l.CountryCode and c.Code like "CHE" order by hablan desc;
+
+8-Muestra los millones de habitantes que hablan español en el mundo entero, con tres decimales.
+
+select truncate((sum((l.Percentage/100)*c.Population/1000000)),3) as hablan  from Country c join CountryLanguage l on l.Language like "Spanish" and c.Code=l.CountryCode group by l.Language ;
+
+9-Muestra los millones de habitantes que hablan español en toda América, con dos decimales.
+
+select truncate((sum((l.Percentage/100)*c.Population/1000000)),2) as hablan  from Country c join CountryLanguage l on l.Language like "Spanish" and c.Code=l.CountryCode and c.Continent like "%America%" group by l.Language ;
+
+select round((sum((l.Percentage/100)*c.Population/1000000)),2) as hablan  from Country c join CountryLanguage l
+ on l.Language like "Spanish" and c.Code=l.CountryCode and c.Continent like "%America%" group by l.Language ;
+
+10-Muestra los 5 idiomas más hablados (de mayor población mundial parlante), en millones con tres decimales.
+
+select l.language,round((sum((l.Percentage/100)*c.Population/1000000)),3) as hablan  from Country c join CountryLanguage l on  c.Code=l.CountryCode  group by l.Language order by hablan desc limit 5;
+
+11-Indica el nº de habitantes total (sin redondear) que hablan francés o portugués en el Norte de África y en América del Sur.xxxx
+
+select truncate(sum((l.Percentage/100)*c.Population),0) as hablan  from Country c join CountryLanguage l on  c.Code=l.CountryCode  and (l.Language like "%Portuguese%" or l.Language like "%French%") and (c.Region like "South America" or c.Region like "Northern Africa");
+
+***HOJA2(vehiculos)en mi caso (automoviles)*********
+
+1-Muestra la información completa de los vehículos de gama alta:
+
+605 filas. Última fila: 3003CCY   | 2002-12-21    | VOLVO      | XC90
+
+select a.* from automoviles a join modelos b on b.gama="Alta" and a.modelo=b.modelo and a.marca=b.marca;
+
+2-Muestra (sin repeticiones) la matrícula, fecha del permiso de circulación y dni del propietario, de todos los automóviles que pertenezcan a algún madrileño.
+
+Solución 199 filas. Última fila: 79249884A | 9075CRV   | 2004-02-01
+
+select b.dni, a.matricula,a.fechaPermCirc from automoviles a join propietarios b on a.matricula=b.matricula join personas c on b.DNI=c.DNI and c.ciudad like "Madrid";
+
+
+
+***Selecciona los profesores de Getafe (id 5 en ciudades) y las asignaturas que han impartido.
+
+select concat(a.nombre," ",a.apellidos) as "persona",d.nombre as "asignatura" from persona a join profesor b on a.id=b.idp join grupo c on b.idg=c.id join asignatura d on c.asignatura=d.id WHERE a.ciudad in (select id from ciudad WHERE id=5) ;
+
+
+***Selecciona el nombre de profesor y el curso (en formato 15/16) de aquellos que impartieron clase antes del curso 17/18
+
+select concat(a.nombre," ",a.apellidos) as "persona",concat(substring(YEAR(d.finicio),3),"/",substring(YEAR(d.ffinal),3)) as "curso" from persona a join profesor b on  a.id=b.idp join grupo c on b.idg=c.id join curso d on c.curso=d.id WHERE YEAR(d.ffinal)<2018 and YEAR(d.finicio)<2017;
+
+******Selecciona el nombre y apellidos separados por espacio de los alumnos y profesores y la asignatura que impartieron como profesor y alumno el curso 19/20 (id 2 en curso), pero de profesores que no sean jefes de estudios ni directores (id 3 en rol).xxxxxxxxxxxx
+
+select  concat(a.nombre," ",a.apellidos) as "alumno",concat(a.nombre," ",a.apellidos) as "profesor" from persona a join profesor b on a.id=b.idg join alumno c on b.idg=c.idg join grupo d on c.idg=d.id join curso e on d.curso=e.id and e.id=2 WHERE a.rol in(select id from rol WHERE id>=3);
+
+***Selecciona los alumnos alcorconeros con las asignaturas y notas, siempre que estén por debajo de 5 pero igual o superior que 4.
+select concat(a.nombre," ",a.apellidos) as "persona ",b.nota as nota,d.nombre as Asignatura from persona a join alumno b on a.id=b.ida and nota<5 and nota >=4  join grupo c on c.id=b.idg join asignatura d on c.asignatura=d.id WHERE a.ciudad in (select id from ciudad where nombre like "Alcorcon");
+
+****Selecciona en cuántos cursos diferentes (años) ha estado cada alumno:
+
+ select concat(a.nombre," ",a.apellidos) as "alumno",count(distinct d.ffinal)as numero from persona a join alumno b on a.id=b.ida join grupo c on c.id=b.idg join curso d on d.id=c.curso group by alumno order by alumno;
+
+
+
+
