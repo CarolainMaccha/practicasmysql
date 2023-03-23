@@ -1,0 +1,26 @@
+sudo mysql
+PROBLEMA DE CONTRASEÑA DE ROOT PARA CONECTARSE.
+SELECT user,authentication_string,plugin,host FROM mysql.user;
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+FLUSH PRIVILEGES;
+//sudo systemctl stop/start/status/restart mysql
+exit
+
+
+
+
+
+/*MYSQL*/
+SUBIR BBDD EXTENSO
+linux
+ 	"source /home/miusuario/descargas/peticiones.sql"
+windows
+	"source \Users\miusuario\Downloads\peticiones.sql"
+	error 2006 cuando no carga una bbdd grande
+	set global max_allowed_packet=268435456;
+
+/*MAQUINA UBUNTU*/
+CARPETAS COMPARTIDAS
+error permisos
+sudo adduser "username" vboxsf
+reiniciamos maquina y listo.
